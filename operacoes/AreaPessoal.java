@@ -5,18 +5,10 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.lang.instrument.Instrumentation;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.RandomAccessFile;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -27,7 +19,6 @@ import java.io.DataOutputStream;
 
 import entidades.usuario.CrudUsuario;
 import entidades.usuario.Movies;
-import javafx.scene.shape.Path;
 
 public class AreaPessoal {
 
@@ -61,6 +52,9 @@ public class AreaPessoal {
   }//fim void menu()
 
   public static void newData() throws Exception {
+    File file = new File("movie.db");
+    if(file.exists())
+      file.delete();
     BufferedReader br = new BufferedReader(new FileReader("movies.csv")); //lendo arquivo de dados
 		String linha = br.readLine(); //ignorando a primeira linha
     int x;
@@ -161,23 +155,15 @@ public class AreaPessoal {
 			}//fim while()
 
       movies[i].setGrossTotal(aux);
-      //============================== Size ==============================
-      movies[i].setSize(movies.length);
-			aux = "";
       //============================= FIM ===============================
 
       //System.out.println(movies[i].toString()); //print dos dados lidos no arquivo movies.csv (usado para teste)
       //apos essa carga de dados os objetos Movies devem ser salvos no arquivo de bytes
       byte[] teste = movies[i].toByteArray();
-      System.out.println(teste);
+      movies[i].setSize(teste.length);
       save(movies[i].toString());
-      //System.out.println("STRING: " + (movies[i].fromByteArray(teste).toString()));
     }
     br.close();
-  }
-
-  public static void loadData() throws Exception {
-    //nao deve ler o arquivo .csv,  deve ler o arquivo de bytes 
   }
 
   public static String removerCaracter(String caracter, String str) throws Exception {
@@ -187,7 +173,8 @@ public class AreaPessoal {
 
   // CRIAR NOVO DADO ----------------------------------------------------------------------------------------------------------
   public static boolean create ()throws Exception{
-    int tombstone, size, id, votes;
+    int tombstone;
+    int size, id, votes;
     String movieName, category, runTime, genre, grossTotal;
     Date releaseDate;
     float imdbRating;
@@ -198,7 +185,7 @@ public class AreaPessoal {
     boolean cadastroConfimado;
 
     tombstone = 1;
-    size = 20;
+    size = 0;
     id = 0; //para aderir a um id preciso saber qual foi o ultimo id salvo.
     movieName = Utils.leString("nome do filme","o");
     releaseDate = (Date) Utils.leData("data no formato (yyyy/mm/dd)", "a");
@@ -221,11 +208,14 @@ public class AreaPessoal {
 
     if (cadastroConfimado) {
       System.out.println("Cadastro confirmado!");
+      id = seek()+1;
       newMovie = new Movies(tombstone, size, id, movieName, releaseDate, category, runTime, genre, imdbRating, votes, grossTotal);
       //String temp = id + " " + movieName + " " + releaseDate + " " + category + " " + runTime + " " + genre + " " + imdbRating + " " + votes + " " + grossTotal; // temp string
       //String str = temp.length() + " " + temp; //string with size on beginning
       //System.out.println(str);
       //toByte(str);
+      byte[] teste = newMovie.toByteArray();
+      newMovie.setSize(teste.length);
       save(newMovie.toString());
       //esse novo cadastro vai pro arquivo de bytes (o arquivo .csv serve apenas para fazer a carga inicial)
     } else
@@ -236,14 +226,67 @@ public class AreaPessoal {
 
   // CONSULTAR DADOS ----------------------------------------------------------------------------------------------------------
   public static void read() throws Exception {
-    File file = new File("movie.db");
-    try (FileReader fileReader = new FileReader(file);
-        BufferedReader bufferedReader = new BufferedReader(fileReader)) {
-        String line;
-        while ((line = bufferedReader.readLine()) != null) {
-            System.out.println(line);
+    
+    // Lê o valor digitado pelo usuário
+    System.out.print("Digite o ID do filme a ser buscado: ");
+    String valorComparar = System.console().readLine();
+
+    try {
+        // Abre o arquivo para leitura
+        BufferedReader leitor = new BufferedReader(new FileReader("movie.db"));
+
+        //String temp = "";
+        String linha;
+        //SimpleDateFormat formato = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+
+        // Lê o arquivo linha por linha
+        while ((linha = leitor.readLine()) != null) {
+            String[] partes = linha.split("#");
+            // Verifica se a linha contém o valor a ser alterado
+            if (linha.contains("*" + valorComparar + "*")) {
+              Movies movie = new Movies();
+
+              movie.setTombstone(Integer.parseInt(partes[0]));
+              movie.setSize(Integer.parseInt(partes[1]));
+              movie.setMovieName(partes[3]);
+              //Date data = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").parse(partes[4]);
+              //movie.setReleaseDate(data);
+              movie.setCategory(partes[5]);
+              movie.setRunTime(partes[6]);
+              movie.setGenre(partes[7]);
+              movie.setImdbRating(Float.parseFloat(partes[8]));
+              movie.setVotes(Integer.parseInt(partes[9]));
+              movie.setGrossTotal(partes[10]);
+
+              System.out.println("\n\n\n=== ID: " + valorComparar + " ===");
+              System.out.println("Lápide: " + movie.getTombstone());
+              System.out.println("Size: " + movie.getSize());
+              System.out.println("Movie Name: " + movie.getMovieName());
+              System.out.println("Movie Category: " + movie.getCategory());
+              //System.out.println("Movie Release Date: " + movie.getReleaseDate());
+              System.out.println("Movie Run Time: " + movie.getRunTime());
+              System.out.println("Movie Genre: " + movie.getGenre());
+              System.out.println("IMDB Rating: " + movie.getImdbRating());
+              System.out.println("Votes: " + movie.getVotes());
+              System.out.println("Total Money Received: " + movie.getGrossTotal());
+              System.out.println("\n");
+
+              //System.out.println("ARQUIVO: " + linha);
+
+            }
+
+          
         }
+
+        // Fecha os arquivos
+        leitor.close();
+
+        // Remove o arquivo original
+
+        System.exit(0);
+        
     } catch (IOException e) {
+        System.out.println("Erro ao ler ou escrever o arquivo.");
         e.printStackTrace();
     }
   } //fim consultarDados
@@ -331,69 +374,117 @@ public class AreaPessoal {
   // DELETAR DADOS ----------------------------------------------------------------------------------------------------------
   public static void delete() throws Exception {
 
-    String idToRemove = ("ID: " + Utils.leString("Digite O ID do filme a ser removido: ", "o(s)"));
+    // Lê o valor digitado pelo usuário
+    System.out.print("Digite o valor a ser alterado: ");
+    String valorAlterar = System.console().readLine();
 
-    String caminhoDoArquivo = "movie.db";
-        int idTombstone = 1; // ID da tombstone a ser atualizada
-        String novaLinha = "Tombstone: 0"; // nova linha a ser escrita
+    try {
+        // Abre o arquivo para leitura
+        BufferedReader leitor = new BufferedReader(new FileReader("movie.db"));
 
-        try {
-            // cria um novo arquivo temporário para armazenar as linhas atualizadas
-            File novoArquivo = new File("temp.db");
-            BufferedWriter escritor = new BufferedWriter(new FileWriter(novoArquivo));
+        // Abre o arquivo para escrita
+        BufferedWriter escritor = new BufferedWriter(new FileWriter("arquivo_novo.txt"));
 
-            // lê o arquivo original linha por linha e escreve as linhas atualizadas no novo arquivo
-            File arquivo = new File(caminhoDoArquivo);
-            BufferedReader leitor = new BufferedReader(new FileReader(arquivo));
-            String linha;
-            boolean atualizou = false;
-            while ((linha = leitor.readLine()) != null) {
-                if (linha.equals("ID: " + idToRemove)) {
-                    // encontrou a linha desejada, atualiza a tombstone
-                    novaLinha = "Tombstone: 0";
-                    atualizou = true;
-                }
-                escritor.write(linha + System.lineSeparator());
-                if (atualizou) {
-                    // escreve a nova linha atualizada após a linha original correspondente
-                    escritor.write(novaLinha + System.lineSeparator());
-                    atualizou = false;
-                }
+        String linha;
+
+        // Lê o arquivo linha por linha
+        while ((linha = leitor.readLine()) != null) {
+            // Verifica se a linha contém o valor a ser alterado
+            if (linha.contains("*" + valorAlterar + "*")) {
+                // Encontra a posição do marcador inicial
+                int posicaoInicial = linha.indexOf("*" + valorAlterar + "*") + 1;
+
+                // Encontra a posição do marcador final
+                int posicaoFinal = linha.indexOf("*", posicaoInicial + 1);
+
+                // Extrai a substring entre os marcadores
+                String valorAntigo = linha.substring(posicaoInicial, posicaoFinal);
+
+                // Substitui o primeiro caractere pelo valor desejado
+                String novaLinha = "0" + linha.substring(posicaoInicial + 1);
+
+                // Escreve a nova linha no arquivo de saída
+                escritor.write(novaLinha);
+                escritor.newLine();
+
+                System.out.println("Linha alterada com sucesso. Valor antigo: " + valorAntigo + ", Novo valor: 0" + valorAntigo.substring(1));
+            } else {
+                // Se a linha não contém o valor a ser alterado, escreve a linha original no arquivo de saída
+                escritor.write(linha);
+                escritor.newLine();
             }
-            leitor.close();
-            escritor.close();
-
-            // substitui o arquivo original pelo novo arquivo atualizado
-            arquivo.delete();
-            novoArquivo.renameTo(new File(caminhoDoArquivo));
-
-            System.out.println("Tombstone atualizada com sucesso!");
-        } catch (IOException e) {
-            System.out.println("Erro ao atualizar tombstone: " + e.getMessage());
         }
-    // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> digitar o id do filme que deseja deletar
-    // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> dar um delete no id que foi digitado (verificar se existe)
 
-    // Movies clienteAtual = Acesso.getUsuario(Acesso.getIDUsuario());
-    // boolean confirmacao;
+        // Fecha os arquivos
+        leitor.close();
+        escritor.close();
 
-    // System.out.println("\n\n\t*** DELETAR USUARIO ***");
-    // System.out.println("\nTem certeza que deseja deletar seu usuario? Todos os seus dados serao apagados.");
-    // System.out.println("\nDigite (s) para Sim ou (n) para Nao.");
-    // confirmacao = Utils.lerConfirmacao();
+        // Remove o arquivo original
+        File arquivoOriginal = new File("movie.db");
+        arquivoOriginal.delete();
 
-    // if (confirmacao == true) {
-    //   System.out.println("\nConta excluida com sucesso, todos os seus dados foram apagados.");
-    //   TelaInicial.Logout();
-    //   Acesso.deleteCustomer(clienteAtual);
-    // } else {
-    //   System.out.println("\nOperacao cancelada, voltando para menu.");
-    // }
+        // Renomeia o arquivo de saída para o nome do arquivo original
+        File arquivoNovo = new File("arquivo_novo.txt");
+        arquivoNovo.renameTo(arquivoOriginal);
+
+    } catch (IOException e) {
+        System.out.println("Erro ao ler ou escrever o arquivo.");
+        e.printStackTrace();
+    }
   } //fim deletarDados()
 
 
   public static Movies getUsuario(int ID)throws Exception{ //passa o ID e retorna o objeto Movie referente ao ID
-    return crudUsuario.read(ID);
+    String valorComparar = System.console().readLine();
+    Movies movie = new Movies();
+
+    try {
+        // Abre o arquivo para leitura
+        BufferedReader leitor = new BufferedReader(new FileReader("movie.db"));
+
+        String linha;
+        
+        //SimpleDateFormat formato = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+
+        // Lê o arquivo linha por linha
+        while ((linha = leitor.readLine()) != null) {
+            String[] partes = linha.split("#");
+            // Verifica se a linha contém o valor a ser alterado
+            if (linha.contains("*" + valorComparar + "*")) {
+              
+
+              movie.setTombstone(Integer.parseInt(partes[0]));
+              movie.setSize(Integer.parseInt(partes[1]));
+              movie.setMovieName(partes[3]);
+              //Date data = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").parse(partes[4]);
+              //movie.setReleaseDate(data);
+              movie.setCategory(partes[5]);
+              movie.setRunTime(partes[6]);
+              movie.setGenre(partes[7]);
+              movie.setImdbRating(Float.parseFloat(partes[8]));
+              movie.setVotes(Integer.parseInt(partes[9]));
+              movie.setGrossTotal(partes[10]);
+
+              
+
+              //System.out.println("ARQUIVO: " + linha);
+
+            }
+
+          
+        }
+
+        // Fecha os arquivos
+        leitor.close();
+
+        // Remove o arquivo original
+
+
+    } catch (IOException e) {
+        System.out.println("Erro ao ler ou escrever o arquivo.");
+        e.printStackTrace();
+    }
+    return movie;
   }
 
   public static void updateMovie(Movies cd)throws Exception{ //recebe um objeto Movie com os dados modificados
@@ -429,12 +520,74 @@ public class AreaPessoal {
         }
   }
 
+
 public static String fromByte(byte ba[]) throws IOException{
     System.out.println(ba);
     ByteArrayInputStream bais = new ByteArrayInputStream(ba);
     DataInputStream dis = new DataInputStream(bais);
     String str = dis.readUTF();
     return str;
+  }
+
+  public static int seek() {
+    String previousID = "";
+    String temp = "";
+
+    File file = new File("movie.db");
+    RandomAccessFile fileHandler = null;
+
+    try {
+      fileHandler = new RandomAccessFile( file, "r" );
+      long fileLength = fileHandler.length() - 1;
+      StringBuilder sb = new StringBuilder();
+
+      for(long filePointer = fileLength; filePointer != -1; filePointer--){
+          fileHandler.seek( filePointer );
+          int readByte = fileHandler.readByte();
+
+          if( readByte == 0xA ) {
+              if( filePointer == fileLength ) {
+                  continue;
+              }
+              break;
+              
+          } else if( readByte == 0xD ) {
+              if( filePointer == fileLength - 1 ) {
+                  continue;
+              }
+              break;
+          }
+
+          sb.append( ( char ) readByte );
+      }
+
+      String lastLine = sb.reverse().toString();
+      for (int i = 0; i < lastLine.length(); i++) {
+        if(lastLine.charAt(i) == '*'){
+          for(int j = i+1; j < lastLine.length(); j++){
+            temp += lastLine.charAt(j);
+          }
+        }
+      }
+      for (int i = 0; temp.charAt(i) != '*' && i < temp.length(); i++){
+        previousID += temp.charAt(i);
+      }
+    // Exibir o valor da variável previousID
+    
+    
+  } catch( java.io.FileNotFoundException e ) {
+      e.printStackTrace();
+  } catch( java.io.IOException e ) {
+      e.printStackTrace();
+  } finally {
+      if (fileHandler != null )
+          try {
+              fileHandler.close();
+          } catch (IOException e) {
+              /* ignore */
+          }
+  }
+  return Integer.parseInt(previousID);
   }
 
 }//fim class AreaPessoal()

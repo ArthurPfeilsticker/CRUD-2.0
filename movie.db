@@ -1,42 +1,20 @@
-
-1  20  1  The Godfather  Wed Jun 07 00:00:00 BRT 1972  R  175 min  Crime, Drama  9.2  1860471  $134.97M
-
-1  20  2  The Silence of the Lambs  Fri May 17 00:00:00 BRT 1991  R  118 min  Crime, Drama, Thriller  8.6  1435344  $130.74M
-
-1  20  3  Star Wars: Episode V - The Empire Strikes Back  Mon Jul 21 00:00:00 BRT 1980  PG  124 min  Action, Adventure, Fantasy  8.7  1294805  $290.48M
-
-1  20  4  The Shawshank Redemption  Thu Mar 17 00:00:00 BRT 1994  R  142 min  Drama  9.3  2683302  $28.34M
-
-1  20  5  The Shining  Thu Dec 25 00:00:00 BRT 1980  R  146 min  Drama, Horror  8.4  1025560  $44.02M
-
-1  20  6  Casablanca  Mon Dec 07 00:00:00 BRT 1942  PG  102 min  Drama, Romance, War  8.5  574092  $1.02M
-
-1  20  7  One Flew Over the Cuckoo's Nest  Fri May 28 00:00:00 BRT 1976  R  133 min  Drama  8.7  1010102  $112.00M
-
-1  20  8  Indiana Jones and the Raiders of the Lost Ark  Fri Dec 25 00:00:00 BRT 1981  PG  115 min  Action, Adventure  8.4  969143  $248.16M
-
-1  20  9  The Lord of the Rings: The Return of the King  Thu Dec 25 00:00:00 BRST 2003  PG-13  201 min  Action, Adventure, Drama  9.0  1849082  $377.85M
-
-1  20  10  Star Wars: Episode IV - A New Hope  Fri Nov 18 00:00:00 BRT 1977  PG  121 min  Action, Adventure, Fantasy  8.6  1367430  $322.74M
-
-1  20  11  The Dark Knight  Fri Jul 18 00:00:00 BRT 2008  PG-13  152 min  Action, Crime, Drama  9.0  2656768  $534.86M
-
-1  20  12  The Godfather: Part II  Thu Feb 14 00:00:00 BRT 1974  R  202 min  Crime, Drama  9.0  1273349  $57.30M
-
-1  20  13  Aliens  Thu Dec 18 00:00:00 BRST 1986  R  137 min  Action, Adventure, Sci-Fi  8.4  720623  $85.16M
-
-1  20  14  Schindler's List  Fri Dec 31 00:00:00 BRST 1993  R  195 min  Biography, Drama, History  9.0  1357621  $96.90M
-
-1  20  15  Inception  Fri Aug 06 00:00:00 BRT 2010  PG-13  148 min  Action, Adventure, Sci-Fi  8.8  2356293  $292.58M
-
-1  20  16  The Lord of the Rings: The Fellowship of the Ring  Mon Jan 01 00:00:00 BRST 2001  PG-13  178 min  Action, Adventure, Drama  8.8  1878557  $315.54M
-
-1  20  17  Alien  Mon Aug 20 00:00:00 BRT 1979  R  117 min  Horror, Sci-Fi  8.5  885635  $78.90M
-
-1  20  18  Some Like It Hot  Mon May 04 00:00:00 BRT 1959  Passed  121 min  Comedy, Music, Romance  8.2  269346  $25.00M
-
-1  20  19  Blade Runner  Sat Dec 25 00:00:00 BRT 1982  R  117 min  Action, Drama, Sci-Fi  8.1  773425  $32.87M
-
-1  20  20  Se7en  Fri Dec 15 00:00:00 BRST 1995  R  127 min  Crime, Drama, Mystery  8.6  1655745  $100.13M
-
-1  0  0  arthur  Mon May 10 00:00:00 BRT 1999  213  3123  1245  512.0  21525  51251
+1#101#*1*#The Godfather#Wed Jun 07 00:00:00 BRT 1972#R#175 min#Crime, Drama#9.2#1860471#$134.97M
+1#122#*2*#The Silence of the Lambs#Fri May 17 00:00:00 BRT 1991#R#118 min#Crime, Drama, Thriller#8.6#1435344#$130.74M
+1#149#*3*#Star Wars: Episode V - The Empire Strikes Back#Mon Jul 21 00:00:00 BRT 1980#PG#124 min#Action, Adventure, Fantasy#8.7#1294805#$290.48M
+1#104#*4*#The Shawshank Redemption#Thu Mar 17 00:00:00 BRT 1994#R#142 min#Drama#9.3#2683302#$28.34M
+1#99#*5*#The Shining#Thu Dec 25 00:00:00 BRT 1980#R#146 min#Drama, Horror#8.4#1025560#$44.02M
+1#104#*6*#Casablanca#Mon Dec 07 00:00:00 BRT 1942#PG#102 min#Drama, Romance, War#8.5#574092#$1.02M
+1#112#*7*#One Flew Over the Cuckoo's Nest#Fri May 28 00:00:00 BRT 1976#R#133 min#Drama#8.7#1010102#$112.00M
+1#139#*8*#Indiana Jones and the Raiders of the Lost Ark#Fri Dec 25 00:00:00 BRT 1981#PG#115 min#Action, Adventure#8.4#969143#$248.16M
+1#150#*9*#The Lord of the Rings: The Return of the King#Thu Dec 25 00:00:00 BRST 2003#PG-13#201 min#Action, Adventure, Drama#9.0#1849082#$377.85M
+1#137#*10*#Star Wars: Episode IV - A New Hope#Fri Nov 18 00:00:00 BRT 1977#PG#121 min#Action, Adventure, Fantasy#8.6#1367430#$322.74M
+1#115#*11*#The Dark Knight#Fri Jul 18 00:00:00 BRT 2008#PG-13#152 min#Action, Crime, Drama#9.0#2656768#$534.86M
+1#109#*12*#The Godfather: Part II#Thu Feb 14 00:00:00 BRT 1974#R#202 min#Crime, Drama#9.0#1273349#$57.30M
+1#107#*13*#Aliens#Thu Dec 18 00:00:00 BRST 1986#R#137 min#Action, Adventure, Sci-Fi#8.4#720623#$85.16M
+1#117#*14*#Schindler's List#Fri Dec 31 00:00:00 BRST 1993#R#195 min#Biography, Drama, History#9.0#1357621#$96.90M
+1#114#*15*#Inception#Fri Aug 06 00:00:00 BRT 2010#PG-13#148 min#Action, Adventure, Sci-Fi#8.8#2356293#$292.58M
+1#154#*16*#The Lord of the Rings: The Fellowship of the Ring#Mon Jan 01 00:00:00 BRST 2001#PG-13#178 min#Action, Adventure, Drama#8.8#1878557#$315.54M
+1#94#*17*#Alien#Mon Aug 20 00:00:00 BRT 1979#R#117 min#Horror, Sci-Fi#8.5#885635#$78.90M
+1#118#*18*#Some Like It Hot#Mon May 04 00:00:00 BRT 1959#Passed#121 min#Comedy, Music, Romance#8.2#269346#$25.00M
+1#108#*19*#Blade Runner#Sat Dec 25 00:00:00 BRT 1982#R#117 min#Action, Drama, Sci-Fi#8.1#773425#$32.87M
+1#103#*20*#Se7en#Fri Dec 15 00:00:00 BRST 1995#R#127 min#Crime, Drama, Mystery#8.6#1655745#$100.13M

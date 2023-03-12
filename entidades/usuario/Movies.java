@@ -107,7 +107,7 @@ public class Movies implements Registro {
   public String getMovieName() {
     return this.movieName;
   }
-  public Date getReleaseDat() {
+  public Date getReleaseDate() {
     return this.releaseDate;
   }
   public String getCategory() {
@@ -132,17 +132,17 @@ public class Movies implements Registro {
  // ------------------------
 
   public String toString() {
-    return "\n" + this.tombstone + //tombstone
-    "  " + this.size + //size
-    "  " + this.id + //id
-    "  " + this.movieName + //movieName
-    "  " + this.releaseDate + //releaseDate
-    "  " + this.category + //category
-    "  " + this.runTime + //runTime
-    "  " + this.genre + //genre
-    "  " + this.imdbRating + //imdbRating
-    "  " + this.votes + //votes
-    "  " + this.grossTotal; //grossTotal
+    return this.tombstone + //tombstone
+    "#" + this.size + //size
+    "#*" + this.id + //id
+    "*#" + this.movieName + //movieName
+    "#" + this.releaseDate + //releaseDate
+    "#" + this.category + //category
+    "#" + this.runTime + //runTime
+    "#" + this.genre + //genre
+    "#" + this.imdbRating + //imdbRating
+    "#" + this.votes + //votes
+    "#" + this.grossTotal; //grossTotal
   }
 
   public byte[] toByteArray() throws IOException{
